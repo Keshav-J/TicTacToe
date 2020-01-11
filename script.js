@@ -123,8 +123,10 @@ bodyApp.controller("bodyCtrl", function($scope, $http) {
 		}).then(function(data) {
 			console.log(data.data);
 
-			if(data.data == 'error')
+			if(data.data == 'error') {
+				alert('Logging out! Your account is now active in another device!');
 				$scope.logout();
+			}
 
 		}, function myError(response) {
 			console.log(response);
@@ -396,7 +398,7 @@ bodyApp.controller("singleCtrl", function($scope, $http) {
 		if(!next)
 			next = arr[Math.floor(Math.random()*(arr.length))];
 
-		setTimeout(function(){ $scope.change(next); }, 250);
+		setTimeout(function(){ $scope.change(next); }, Math.floor(Math.random() * 250));
 	}
 
 	$scope.change = function(rc) {
@@ -428,13 +430,13 @@ bodyApp.controller("singleCtrl", function($scope, $http) {
 						console.log(data.data);
 
 						if($scope.p2==0 && !$scope.start==0)
-							alert('#EeSaalaCupNamde...!! Your turn!');
+							alert('You won...!! Your turn!');
 						else if($scope.p2==0 && !$scope.start==1)
-							alert('#EeSaalaCupNamde...!! A.I. starts now.');
+							alert('You won...!! A.I. starts now.');
 						else if($scope.p2==1 && !$scope.start==0)
-							alert('#NextSaalaCupNamde...!! Your turn.');
+							alert('A.I. won...!! Your turn.');
 						else if($scope.p2==1 && !$scope.start==1)
-							alert('#NextSaalaCupNamde...!! A.I. starts now.');
+							alert('A.I. won...!! A.I. starts now.');
 
 						if($scope.p2 == 0)
 							$scope.w1++;
@@ -759,13 +761,13 @@ bodyApp.controller("multiCtrl", function($scope, $http) {
 							var wn = "ai";
 
 						if($scope.p2==0 && !$scope.start==0)
-							alert('#EeSaalaCupNamde...!! Your turn!');
+							alert('You won...!! Your turn!');
 						else if($scope.p2==0 && !$scope.start==1)
-							alert('#EeSaalaCupNamde...!! ' + $scope.opuname + ' starts now.');
+							alert('You won...!! ' + $scope.opuname + ' starts now.');
 						else if($scope.p2==1 && !$scope.start==0)
-							alert('#NextSaalaCupNamde...!! Your turn.');
+							alert($scope.opuname + ' won...!! Your turn.');
 						else if($scope.p2==1 && !$scope.start==1)
-							alert('#NextSaalaCupNamde...!! ' + $scope.opuname + ' starts now.');
+							alert($scope.opuname + ' won...!! ' + $scope.opuname + ' starts now.');
 
 						if($scope.p2 == 0)
 							$scope.w1++;
@@ -838,13 +840,13 @@ bodyApp.controller("multiCtrl", function($scope, $http) {
 							console.log(data.data);
 
 							if($scope.p2==0 && !$scope.start==0)
-								alert('#EeSaalaCupNamde...!! Your turn!');
+								alert('You won...!! Your turn!');
 							else if($scope.p2==0 && !$scope.start==1)
-								alert('#EeSaalaCupNamde...!! ' + $scope.opuname + ' starts now.');
+								alert('You won...!! ' + $scope.opuname + ' starts now.');
 							else if($scope.p2==1 && !$scope.start==0)
-								alert('#NextSaalaCupNamde...!! Your turn.');
+								alert($scope.opuname + ' won...!! Your turn.');
 							else if($scope.p2==1 && !$scope.start==1)
-								alert('#NextSaalaCupNamde...!! ' + $scope.opuname + ' starts now.');
+								alert($scope.opuname + ' won...!! ' + $scope.opuname + ' starts now.');
 
 							if($scope.p2 == 0)
 								$scope.w1++;
