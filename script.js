@@ -171,24 +171,42 @@ bodyApp.controller("twoCtrl", function($scope, $http) {
 
 	$scope.check = function() {
 		//console.log($scope.board);
-		if($scope.board[1][1]==$scope.p2+1 && $scope.board[1][2]==$scope.p2+1 && $scope.board[1][3]==$scope.p2+1)
-			return true;
-		if($scope.board[2][1]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[2][3]==$scope.p2+1)
-			return true;
-		if($scope.board[3][1]==$scope.p2+1 && $scope.board[3][2]==$scope.p2+1 && $scope.board[3][3]==$scope.p2+1)
-			return true;
+		const n = 3;
+		let count;
 
-		if($scope.board[1][1]==$scope.p2+1 && $scope.board[2][1]==$scope.p2+1 && $scope.board[3][1]==$scope.p2+1)
-			return true;
-		if($scope.board[1][2]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[3][2]==$scope.p2+1)
-			return true;
-		if($scope.board[1][3]==$scope.p2+1 && $scope.board[2][3]==$scope.p2+1 && $scope.board[3][3]==$scope.p2+1)
-			return true;
+		for(let i=1 ; i<=n ; ++i) {
+			count = 0;
+			for(let j=1 ; j<=n ; ++j) {						// Row check
+				if($scope.board[i][j] == $scope.p2 + 1)
+					count++;
+			}
+			
+			if(count == n) return true;
 
-		if($scope.board[1][1]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[3][3]==$scope.p2+1)
-			return true;
-		if($scope.board[3][1]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[1][3]==$scope.p2+1)
-			return true;
+			count = 0;
+			for(let j=1 ; j<=n ; ++j) {						// Column check
+				if($scope.board[j][i] == $scope.p2 + 1)
+					count++;
+			}
+			
+			if(count == n) return true;
+		}
+
+		count = 0;
+		for(let i=1 ; i<=n ; ++i) {							// Main diagonal check
+			if($scope.board[i][i] == $scope.p2 + 1)
+				count++;
+		}
+
+		if(count == n) return true;
+
+		count = 0;
+		for(let i=1 ; i<=n ; ++i) {							// Other diagonal check
+			if($scope.board[i][n-i+1] == $scope.p2 + 1)
+				count++;
+		}
+
+		if(count == n) return true;
 
 		return false;
 	}
@@ -214,7 +232,7 @@ bodyApp.controller("twoCtrl", function($scope, $http) {
 					else
 						$scope.w2++;
 					$scope.resetBoard();
-				}, 1000);
+				}, 500);
 			}
 			else if($scope.count == 9)
 			{
@@ -247,6 +265,10 @@ bodyApp.controller("singleCtrl", function($scope, $http) {
 		$scope.count=0;
 		$scope.start = !$scope.start;
 		$scope.p2 = $scope.start;
+		$scope.scores = {
+			false: -1,
+			true: 1
+		};
 	}
 	$scope.init = function() {
 		$scope.p2 = false;
@@ -281,122 +303,107 @@ bodyApp.controller("singleCtrl", function($scope, $http) {
 		$scope.resetBoard();
 	}
 
-	$scope.check = function() {
+	$scope.check = function(player) {
 		//console.log($scope.board);
-		if($scope.board[1][1]==$scope.p2+1 && $scope.board[1][2]==$scope.p2+1 && $scope.board[1][3]==$scope.p2+1)
-			return true;
-		if($scope.board[2][1]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[2][3]==$scope.p2+1)
-			return true;
-		if($scope.board[3][1]==$scope.p2+1 && $scope.board[3][2]==$scope.p2+1 && $scope.board[3][3]==$scope.p2+1)
-			return true;
+		const n = 3;
+		let count;
 
-		if($scope.board[1][1]==$scope.p2+1 && $scope.board[2][1]==$scope.p2+1 && $scope.board[3][1]==$scope.p2+1)
-			return true;
-		if($scope.board[1][2]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[3][2]==$scope.p2+1)
-			return true;
-		if($scope.board[1][3]==$scope.p2+1 && $scope.board[2][3]==$scope.p2+1 && $scope.board[3][3]==$scope.p2+1)
-			return true;
+		for(let i=1 ; i<=n ; ++i) {
+			count = 0;
+			for(let j=1 ; j<=n ; ++j) {						// Row check
+				if($scope.board[i][j] == player)
+					count++;
+			}
+			
+			if(count == n) return true;
 
-		if($scope.board[1][1]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[3][3]==$scope.p2+1)
-			return true;
-		if($scope.board[3][1]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[1][3]==$scope.p2+1)
-			return true;
+			count = 0;
+			for(let j=1 ; j<=n ; ++j) {						// Column check
+				if($scope.board[j][i] == player)
+					count++;
+			}
+			
+			if(count == n) return true;
+		}
+
+		count = 0;
+		for(let i=1 ; i<=n ; ++i) {							// Main diagonal check
+			if($scope.board[i][i] == player)
+				count++;
+		}
+
+		if(count == n) return true;
+
+		count = 0;
+		for(let i=1 ; i<=n ; ++i) {							// Other diagonal check
+			if($scope.board[i][n-i+1] == player)
+				count++;
+		}
+
+		if(count == n) return true;
 
 		return false;
 	}
 
-	$scope.checkWin = function() {
-		//console.log($scope.board);
+	$scope.minimax = function(isMaximizing) {
+		if($scope.check(isMaximizing + 1)) return $scope.scores[isMaximizing];
+		if($scope.check(!isMaximizing + 1)) return $scope.scores[!isMaximizing];
+		if($scope.count == 9) return 0;
 
-		// Winning move
+		// console.log(isMaximizing, $scope.board);
 
-		if($scope.board[1][1]==2 && $scope.board[1][2]==2 && $scope.board[1][3]==0) return 13;
-		if($scope.board[1][1]==2 && $scope.board[1][2]==0 && $scope.board[1][3]==2) return 12;
-		if($scope.board[1][1]==0 && $scope.board[1][2]==2 && $scope.board[1][3]==2) return 11;
-		
-		if($scope.board[2][1]==2 && $scope.board[2][2]==2 && $scope.board[2][3]==0) return 23;
-		if($scope.board[2][1]==2 && $scope.board[2][2]==0 && $scope.board[2][3]==2) return 22;
-		if($scope.board[2][1]==0 && $scope.board[2][2]==2 && $scope.board[2][3]==2) return 21;
-		
-		if($scope.board[3][1]==2 && $scope.board[3][2]==2 && $scope.board[3][3]==0) return 33;
-		if($scope.board[3][1]==2 && $scope.board[3][2]==0 && $scope.board[3][3]==2) return 32;
-		if($scope.board[3][1]==0 && $scope.board[3][2]==2 && $scope.board[3][3]==2) return 31;
+		const n = 3;
 
-		
-		if($scope.board[1][1]==2 && $scope.board[2][1]==2 && $scope.board[3][1]==0) return 31;
-		if($scope.board[1][1]==2 && $scope.board[2][1]==0 && $scope.board[3][1]==2) return 21;
-		if($scope.board[1][1]==0 && $scope.board[2][1]==2 && $scope.board[3][1]==2) return 11;
-		
-		if($scope.board[1][2]==2 && $scope.board[2][2]==2 && $scope.board[3][2]==0) return 32;
-		if($scope.board[1][2]==2 && $scope.board[2][2]==0 && $scope.board[3][2]==2) return 22;
-		if($scope.board[1][2]==0 && $scope.board[2][2]==2 && $scope.board[3][2]==2) return 12;
-		
-		if($scope.board[1][3]==2 && $scope.board[2][3]==2 && $scope.board[3][3]==0) return 33;
-		if($scope.board[1][3]==2 && $scope.board[2][3]==0 && $scope.board[3][3]==2) return 23;
-		if($scope.board[1][3]==0 && $scope.board[2][3]==2 && $scope.board[3][3]==2) return 13;
+		let maxVal = -1e10, minVal = 1e10;
+		for(let i=1 ; i<=n ; ++i) {
+			for(let j=1 ; j<=n ; ++j) {
+				if($scope.board[i][j] == 0) {
+					$scope.board[i][j] = isMaximizing + 1;
+					$scope.count++;
 
-		
-		if($scope.board[1][1]==2 && $scope.board[2][2]==2 && $scope.board[3][3]==0) return 33;
-		if($scope.board[1][1]==2 && $scope.board[2][2]==0 && $scope.board[3][3]==2) return 22;
-		if($scope.board[1][1]==0 && $scope.board[2][2]==2 && $scope.board[3][3]==2) return 11;
-		
-		if($scope.board[3][1]==2 && $scope.board[2][2]==2 && $scope.board[1][3]==0) return 13;
-		if($scope.board[3][1]==2 && $scope.board[2][2]==0 && $scope.board[1][3]==2) return 22;
-		if($scope.board[3][1]==0 && $scope.board[2][2]==2 && $scope.board[1][3]==2) return 31;
+					if(isMaximizing)
+						maxVal = Math.max(maxVal, $scope.minimax(!isMaximizing));
+					else
+						minVal = Math.min(minVal, $scope.minimax(!isMaximizing));
 
-		// Preventing move
+					$scope.board[i][j] = 0;
+					$scope.count--;
+				}
+			}
+		}
 
-		if($scope.board[1][1]==1 && $scope.board[1][2]==1 && $scope.board[1][3]==0) return 13;
-		if($scope.board[1][1]==1 && $scope.board[1][2]==0 && $scope.board[1][3]==1) return 12;
-		if($scope.board[1][1]==0 && $scope.board[1][2]==1 && $scope.board[1][3]==1) return 11;
-		
-		if($scope.board[2][1]==1 && $scope.board[2][2]==1 && $scope.board[2][3]==0) return 23;
-		if($scope.board[2][1]==1 && $scope.board[2][2]==0 && $scope.board[2][3]==1) return 22;
-		if($scope.board[2][1]==0 && $scope.board[2][2]==1 && $scope.board[2][3]==1) return 21;
-		
-		if($scope.board[3][1]==1 && $scope.board[3][2]==1 && $scope.board[3][3]==0) return 33;
-		if($scope.board[3][1]==1 && $scope.board[3][2]==0 && $scope.board[3][3]==1) return 32;
-		if($scope.board[3][1]==0 && $scope.board[3][2]==1 && $scope.board[3][3]==1) return 31;
-
-		
-		if($scope.board[1][1]==1 && $scope.board[2][1]==1 && $scope.board[3][1]==0) return 31;
-		if($scope.board[1][1]==1 && $scope.board[2][1]==0 && $scope.board[3][1]==1) return 21;
-		if($scope.board[1][1]==0 && $scope.board[2][1]==1 && $scope.board[3][1]==1) return 11;
-		
-		if($scope.board[1][2]==1 && $scope.board[2][2]==1 && $scope.board[3][2]==0) return 32;
-		if($scope.board[1][2]==1 && $scope.board[2][2]==0 && $scope.board[3][2]==1) return 22;
-		if($scope.board[1][2]==0 && $scope.board[2][2]==1 && $scope.board[3][2]==1) return 12;
-		
-		if($scope.board[1][3]==1 && $scope.board[2][3]==1 && $scope.board[3][3]==0) return 33;
-		if($scope.board[1][3]==1 && $scope.board[2][3]==0 && $scope.board[3][3]==1) return 23;
-		if($scope.board[1][3]==0 && $scope.board[2][3]==1 && $scope.board[3][3]==1) return 13;
-
-		
-		if($scope.board[1][1]==1 && $scope.board[2][2]==1 && $scope.board[3][3]==0) return 33;
-		if($scope.board[1][1]==1 && $scope.board[2][2]==0 && $scope.board[3][3]==1) return 22;
-		if($scope.board[1][1]==0 && $scope.board[2][2]==1 && $scope.board[3][3]==1) return 11;
-		
-		if($scope.board[3][1]==1 && $scope.board[2][2]==1 && $scope.board[1][3]==0) return 13;
-		if($scope.board[3][1]==1 && $scope.board[2][2]==0 && $scope.board[1][3]==1) return 22;
-		if($scope.board[3][1]==0 && $scope.board[2][2]==1 && $scope.board[1][3]==1) return 31;
-
-		return 0;
+		if(isMaximizing)
+			return maxVal;
+		return minVal;
 	}
 
 	$scope.computerTurn = function() {
-		//console.log('computer');
-		var arr = [];
-		var n = 0;
-		for($i=1 ; $i<=3 ; $i++)
-			for($j=1 ; $j<=3 ; $j++)
-				if($scope.board[$i][$j] == 0)
-					arr.push($i*10+$j);
+		const n = 3;
 
-		var next = $scope.checkWin();
-		//console.log('Check = ' + next);
+		let maxVal = -1e10;
+		let maxPositions = [];
 
-		if(!next)
-			next = arr[Math.floor(Math.random()*(arr.length))];
+		for(let i=1 ; i<=n ; ++i)
+			for(let j=1 ; j<=n ; ++j)
+				if($scope.board[i][j] == 0) {
+					$scope.board[i][j] = $scope.p2 + 1;
+					$scope.count++;
+
+					const minimaxVal = $scope.minimax(0);
+
+					if(minimaxVal > maxVal) {
+						maxVal = minimaxVal;
+						maxPositions = [(i*10 + j)];
+					} else if(minimaxVal == maxVal) {
+						maxPositions.push(i*10 + j);
+					}
+					
+					$scope.board[i][j] = 0;
+					$scope.count--;
+				}
+		
+		const next = maxPositions[Math.floor(Math.random()*(maxPositions.length))];
+		console.log(maxVal, maxPositions);
 
 		setTimeout(function(){ $scope.change(next); }, Math.floor(Math.random() * 250));
 	}
@@ -413,7 +420,7 @@ bodyApp.controller("singleCtrl", function($scope, $http) {
 			$scope.board[r][c] = $scope.p2 + 1;
 			//console.log($scope.board[r][c]);
 
-			if($scope.check())
+			if($scope.check($scope.p2 + 1))
 			{
 				setTimeout(function() {
 					if($scope.p2==0)
@@ -704,24 +711,42 @@ bodyApp.controller("multiCtrl", function($scope, $http) {
 
 	$scope.check = function() {
 		//console.log($scope.board);
-		if($scope.board[1][1]==$scope.p2+1 && $scope.board[1][2]==$scope.p2+1 && $scope.board[1][3]==$scope.p2+1)
-			return true;
-		if($scope.board[2][1]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[2][3]==$scope.p2+1)
-			return true;
-		if($scope.board[3][1]==$scope.p2+1 && $scope.board[3][2]==$scope.p2+1 && $scope.board[3][3]==$scope.p2+1)
-			return true;
+		const n = 3;
+		let count;
 
-		if($scope.board[1][1]==$scope.p2+1 && $scope.board[2][1]==$scope.p2+1 && $scope.board[3][1]==$scope.p2+1)
-			return true;
-		if($scope.board[1][2]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[3][2]==$scope.p2+1)
-			return true;
-		if($scope.board[1][3]==$scope.p2+1 && $scope.board[2][3]==$scope.p2+1 && $scope.board[3][3]==$scope.p2+1)
-			return true;
+		for(let i=1 ; i<=n ; ++i) {
+			count = 0;
+			for(let j=1 ; j<=n ; ++j) {						// Row check
+				if($scope.board[i][j] == $scope.p2 + 1)
+					count++;
+			}
+			
+			if(count == n) return true;
 
-		if($scope.board[1][1]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[3][3]==$scope.p2+1)
-			return true;
-		if($scope.board[3][1]==$scope.p2+1 && $scope.board[2][2]==$scope.p2+1 && $scope.board[1][3]==$scope.p2+1)
-			return true;
+			count = 0;
+			for(let j=1 ; j<=n ; ++j) {						// Column check
+				if($scope.board[j][i] == $scope.p2 + 1)
+					count++;
+			}
+			
+			if(count == n) return true;
+		}
+
+		count = 0;
+		for(let i=1 ; i<=n ; ++i) {							// Main diagonal check
+			if($scope.board[i][i] == $scope.p2 + 1)
+				count++;
+		}
+
+		if(count == n) return true;
+
+		count = 0;
+		for(let i=1 ; i<=n ; ++i) {							// Other diagonal check
+			if($scope.board[i][n-i+1] == $scope.p2 + 1)
+				count++;
+		}
+
+		if(count == n) return true;
 
 		return false;
 	}

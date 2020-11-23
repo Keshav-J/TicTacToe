@@ -77,8 +77,8 @@ include_once 'header.php';
 
 	<div class="player center">
 		<div class="play">
-			<label ng-show="p2"> {{ uname }} </label>
-			<label ng-show="!p2" class="active"> {{ uname }} </label>
+			<label ng-show="p2"> {{ uname != '' ? uname : 'You' }} </label>
+			<label ng-show="!p2" class="active"> {{ uname != '' ? uname : 'You' }} </label>
 
 			<br>
 			<label style="font-size: 45px;"> {{ w1 }} </label>
